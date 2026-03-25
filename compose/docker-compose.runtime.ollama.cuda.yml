@@ -1,0 +1,7 @@
+# Runtime definitions for Ollama when using CUDA (NVIDIA GPUs).
+# Include this file only for NVIDIA GPU deployments. For hybrid Windows AMD setups,
+# simply run `docker compose` without this file and install Ollama on the host.
+services:
+  ollama:
+    image: ollama/ollama:latest
+    gpus: all

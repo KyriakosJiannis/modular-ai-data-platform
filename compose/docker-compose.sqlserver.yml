@@ -1,0 +1,57 @@
+# AI Platform - SQL Server Optional Service
+# ==========================================
+#
+# SQL Server is a heavy, optional database service.
+# This file is separate from the base infrastructure to allow users
+# to opt-in only when needed, reducing resource consumption.
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.sqlserver.yml --profile sqlserver up -d
+#
+# Resource requirements:
+#   - Multi-GB image download
+#   - Significant memory and CPU usage
+#   - Recommended for teams already invested in SQL Server ecosystem
+#
+# Connection details:
+#   - Host: sqlserver
+#   - Port: 1433
+#   - User: sa
+#   - Password: ${MSSQL_SA_PASSWORD} (from .env)
+
+networks:
+  ai-infra:
+    name: ai-infra-net
+    external: true
+
+services:
+
+  # =========================================================================
+  # SQL SERVER - Optional Relational Database
+  # =========================================================================
+  # Heavy, optional database. Disabled by default.
+  # Useful for teams already invested in SQL Server ecosystem.
+  # Internal only (no direct Traefik routing).
+  # =========================================================================
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU28-ubuntu-20.04
+    platform: linux/amd64
+    profiles: ["sqlserver"]
+    env_file:
+      - ../config/env/.env
+    environment:
+      TZ: ${TZ:-UTC}
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: "Developer"
+    volumes:
+      - ../volumes/sqlserver:/var/opt/mssql
+    shm_size: "1g"
+    networks:
+      - ai-infra
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 2 bash -lc '</dev/tcp/127.0.0.1/1433' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30

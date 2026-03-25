@@ -1,0 +1,191 @@
+# Orchestration Layer - Prefect and Dagster
+# ============================================
+#
+# This overlay adds optional workflow orchestration services to the AI Platform.
+#
+# Services:
+# - Prefect Server: Python-first workflow orchestration
+# - Prefect Worker: Executes Prefect flows
+# - Dagster Web UI: Data-aware orchestration and asset management
+# - Dagster Daemon: Manages Dagster schedules and sensors
+#
+# These services are OPTIONAL and do not affect core platform operation.
+# They integrate with existing platform services (PostgreSQL, MinIO, etc.)
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.orchestration.yml up -d
+#
+# Profiles:
+#   - orchestration: Enables all orchestration services
+
+services:
+  # ============================================
+  # Prefect Server
+  # ============================================
+  # Prefect is a Python-first workflow orchestration platform.
+  # It provides a UI for managing flows, runs, and deployments.
+  #
+  # Use Prefect for:
+  # - ML pipeline orchestration
+  # - LLM workflow management
+  # - Python-native data pipelines
+  # - Scheduled and event-driven workflows
+  #
+  # Accessible at: http://prefect.localhost
+  prefect-server:
+    image: prefecthq/prefect:2.14.0-python3.11
+    command: prefect server start --host 0.0.0.0 --port 4200
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_SERVER_API_PORT=4200
+      - PREFECT_HOME=/root/.prefect
+      # Use existing Postgres container
+      - PREFECT_API_DATABASE_CONNECTION_URL=postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/prefect
+      #- PREFECT_API_DATABASE_CONNECTION_URL=${PREFECT_API_DATABASE_CONNECTION_URL}
+    volumes:
+      - ../volumes/prefect:/root/.prefect
+    networks:
+      - ai-infra
+      - ai-public
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health').getcode()" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prefect.rule=Host(`${PREFECT_HOST:-prefect.localhost}`)"
+      - "traefik.http.routers.prefect.entrypoints=web"
+      - "traefik.http.services.prefect.loadbalancer.server.port=4200"
+    profiles:
+      - orchestration
+
+  # ============================================
+  # Prefect Worker
+  # ============================================
+  # Prefect Worker executes flows scheduled by Prefect Server.
+  # It polls the server for work and executes flows in containers.
+  #
+  # This worker is configured to:
+  # - Connect to Prefect Server
+  # - Execute flows with Docker
+  # - Use the platform's Docker daemon
+  #
+  # Note: Requires Docker socket access for flow execution
+  prefect-worker:
+    image: prefecthq/prefect:2.14.0-python3.11
+    command: prefect worker start --pool default-agent-pool --type docker
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+      - PREFECT_HOME=/root/.prefect
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../volumes/prefect:/root/.prefect
+    networks:
+      - ai-infra
+      - ai-public
+    depends_on:
+      prefect-server:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - orchestration
+
+  # ============================================
+  # Dagster Web UI
+  # ============================================
+  # Dagster is a data orchestration platform focused on assets and lineage.
+  # It provides a UI for managing data assets, jobs, and runs.
+  #
+  # Use Dagster for:
+  # - Data pipeline orchestration
+  # - Asset-oriented workflows
+  # - Data lineage tracking
+  # - Complex data dependencies
+  #
+  # Accessible at: http://dagster.localhost
+  dagster-webserver:
+    build:
+      context: ../platform/orchestration/dagster
+      dockerfile: Dockerfile
+    image: ai-dagster:1.12.18
+    command: dagster-webserver -h 0.0.0.0 -p 3050 -w /opt/dagster/app/workspace.yaml
+    environment:
+      - DAGSTER_HOME=/dagster_home
+      - DAGSTER_POSTGRES_USER=${POSTGRES_USER}
+      - DAGSTER_POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DAGSTER_POSTGRES_DB=dagster
+      - DAGSTER_POSTGRES_HOST=postgres
+      - DAGSTER_POSTGRES_PORT=5432
+    volumes:
+      - ../volumes/dagster:/dagster_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - ai-infra
+      - ai-public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      # Changed from curl to python to match the slim image capabilities
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3050').getcode()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dagster.rule=Host(`${DAGSTER_HOST:-dagster.localhost}`)"
+      - "traefik.http.routers.dagster.entrypoints=web"
+      - "traefik.http.services.dagster.loadbalancer.server.port=3050"
+    profiles:
+      - orchestration
+
+  # ============================================
+  # Dagster Daemon
+  # ============================================
+  # Dagster Daemon manages schedules, sensors, and run queuing.
+  # It runs in the background and coordinates job execution.
+  #
+  # Responsibilities:
+  # - Execute scheduled jobs
+  # - Trigger sensor-based jobs
+  # - Manage run queue
+  # - Monitor asset freshness
+  dagster-daemon:
+    build:
+      context: ../platform/orchestration/dagster
+      dockerfile: Dockerfile
+    image: ai-dagster:1.12.18
+    command: dagster-daemon run
+    environment:
+      - DAGSTER_HOME=/dagster_home
+      - DAGSTER_POSTGRES_USER=${POSTGRES_USER}
+      - DAGSTER_POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DAGSTER_POSTGRES_DB=dagster
+      - DAGSTER_POSTGRES_HOST=postgres
+      - DAGSTER_POSTGRES_PORT=5432
+    volumes:
+      - ../volumes/dagster:/dagster_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - ai-infra
+      - ai-public
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dagster-webserver:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - orchestration
+
+networks:
+  ai-infra:
+    external: true
+  ai-public:
+    external: true

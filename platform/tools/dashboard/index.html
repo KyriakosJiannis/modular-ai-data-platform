@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Platform</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg0:#070a0f;
+      --bg1:#0b1220;
+      --card:#0e1624cc;
+      --card2:#0c1420cc;
+      --stroke:#243244;
+      --stroke2:#334a66;
+      --text:#e7eef7;
+      --muted:#a7b4c6;
+      --orange:#ff8a3d;
+      --orange2:#ffb07a;
+      --good:#22c55e;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      --info:#3b82f6;
+      --shadow: 0 20px 70px rgba(0,0,0,.55);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(255,138,61,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(58,85,114,.20), transparent 55%),
+        radial-gradient(900px 700px at 30% 110%, rgba(34,197,94,.07), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height:100vh;
+    }
+
+    .wrap{ max-width:1100px; margin:44px auto; padding:0 18px 60px; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom:22px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,138,61,.95), rgba(255,138,61,.25) 45%, transparent 70%),
+        radial-gradient(circle at 75% 70%, rgba(58,85,114,.80), transparent 60%),
+        linear-gradient(180deg, #111a2a, #070a0f);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: conic-gradient(from 210deg, transparent, rgba(255,138,61,.22), transparent 45%, rgba(255,176,122,.18), transparent);
+      filter: blur(10px);
+      opacity:.65;
+    }
+    h1{ margin:0; font-size:20px; letter-spacing:.2px; }
+    .subtitle{ color:var(--muted); font-size:13px; margin-top:2px; }
+
+    .env{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(15,22,32,.55);
+      border-radius:14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .pill{
+      font-size:12px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,138,61,.35);
+      background: rgba(255,138,61,.12);
+      color: var(--orange2);
+    }
+    .small{ font-size:12px; color:var(--muted); }
+
+    .hero{
+      margin-top:12px;
+      padding:22px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(14,22,36,.65), rgba(12,20,32,.55));
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-80px;
+      background:
+        radial-gradient(600px 240px at 20% 10%, rgba(255,138,61,.16), transparent 60%),
+        radial-gradient(420px 220px at 85% 40%, rgba(58,85,114,.18), transparent 65%);
+      pointer-events:none;
+    }
+    .heroRow{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    .heroTitle{
+      font-size:26px;
+      margin:0 0 8px;
+      letter-spacing:.2px;
+    }
+    .heroTitle .accent{ color:var(--orange); }
+    .heroText{
+      margin:0;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:14px;
+      max-width: 62ch;
+    }
+
+    .centerCard{
+      border-radius:16px;
+      background: rgba(9,14,22,.55);
+      border:1px solid rgba(255,255,255,.06);
+      padding:14px;
+      display:flex; flex-direction:column; justify-content:space-between;
+      gap:10px;
+    }
+    .centerCard .label{
+      font-size:12px; color:var(--muted);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .centerCard .label strong{ color:var(--text); font-weight:650; }
+    .centerLink{
+      display:flex; gap:10px; align-items:center;
+      text-decoration:none; color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+      transition: .15s ease;
+    }
+    .centerLink:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,138,61,.35);
+      background: rgba(255,138,61,.08);
+    }
+    .centerIcon{
+      width:34px; height:34px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,138,61,.35), transparent 60%),
+                  linear-gradient(180deg, rgba(20,28,42,.8), rgba(9,14,22,.9));
+      border:1px solid rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      color: var(--orange2);
+      font-weight:800;
+    }
+
+    .section{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+    }
+    .panel{
+      grid-column: span 6;
+      border-radius:16px;
+      background: rgba(14,22,36,.55);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow: 0 14px 50px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+    .panelHead{
+      padding:14px 14px 10px;
+      display:flex; justify-content:space-between; align-items:center;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.02);
+    }
+    .panelHead .h{
+      margin:0; font-size:13px; letter-spacing:.12em; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .panelHead .hint{ font-size:12px; color: rgba(255,255,255,.45); }
+    .grid{
+      padding:14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap:10px;
+    }
+
+    a.card{
+      display:block;
+      text-decoration:none;
+      color:var(--text);
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(10,16,26,.55);
+      transition: .15s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    a.card:before{
+      content:"";
+      position:absolute; inset:-60px;
+      background: radial-gradient(220px 120px at 20% 10%, rgba(255,138,61,.10), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    a.card:hover{
+      transform: translateY(-1px);
+      border-color: rgba(58,85,114,.55);
+      background: rgba(12,20,32,.70);
+    }
+
+    .row{ position:relative; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .title{ font-weight:750; margin:0 0 4px; letter-spacing:.2px; }
+    .meta{ margin:0; font-size:13px; color:var(--muted); line-height:1.25; }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:11px; font-weight:600; letter-spacing:.05em;
+      padding:4px 8px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.70);
+      margin-top:8px;
+      text-transform:uppercase;
+    }
+    .badge.traefik{
+      border-color: rgba(255,138,61,.25);
+      background: rgba(255,138,61,.08);
+      color: var(--orange2);
+    }
+    .badge.direct{
+      border-color: rgba(58,85,114,.45);
+      background: rgba(58,85,114,.15);
+      color: rgba(100,150,200,.95);
+    }
+    .badge.manual{
+      border-color: rgba(245,158,11,.25);
+      background: rgba(245,158,11,.08);
+      color: var(--warn);
+    }
+
+    .foot{
+      margin-top:18px;
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;
+      color: rgba(255,255,255,.55);
+      font-size:12px;
+    }
+    .footNote{
+      padding:12px;
+      border-radius:12px;
+      background: rgba(58,85,114,.08);
+      border:1px solid rgba(58,85,114,.15);
+      color: rgba(255,255,255,.70);
+      font-size:12px;
+      line-height:1.4;
+    }
+    .footNote strong{ color: var(--text); }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      color: rgba(255,255,255,.70);
+    }
+
+    @media (max-width: 920px){
+      .heroRow{ grid-template-columns: 1fr; }
+      .panel{ grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>AI Platform</h1>
+          <div class="subtitle">Local dev control plane (Traefik + core services)</div>
+        </div>
+      </div>
+      <div class="env">
+        <span class="pill">dev</span>
+        <span class="small">Host: <span class="kbd">ai.localhost</span></span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="heroRow">
+        <div>
+          <h2 class="heroTitle">One page to rule your <span class="accent">AI infra</span>.</h2>
+          <p class="heroText">
+            Quick launcher for your local platform services. Click any link to open the service in your browser.
+            Badges indicate how each service is accessed (via Traefik, direct port, or manual).
+          </p>
+        </div>
+
+        <div class="centerCard">
+          <div class="label"><strong>Gateway</strong><span>routing / services</span></div>
+          <a class="centerLink" href="http://127.0.0.1:8088/dashboard/" target="_blank" rel="noreferrer">
+            <div class="centerIcon">T</div>
+            <div>
+              <div class="title" style="margin:0">Traefik Dashboard</div>
+              <div class="meta" style="margin:0">Routes • Middlewares • Health</div>
+            </div>
+          </a>
+          <div style="margin-top:10px; font-size:12px; color:var(--muted);">
+            <span class="badge direct">Direct Port</span>
+            <div style="margin-top:6px;">EntryPoint: <span class="kbd">:80</span> • Dashboard: <span class="kbd">:8088</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="panel">
+        <div class="panelHead">
+          <p class="h">AI & Apps</p>
+          <span class="hint">UI / experiment tracking / orchestration</span>
+        </div>
+        <div class="grid">
+          <a class="card" href="http://openwebui.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">OpenWebUI</p>
+                <p class="meta">Chat UI</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://mlflow.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">MLflow</p>
+                <p class="meta">Experiments • Models</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://prefect.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Prefect</p>
+                <p class="meta">Workflow Orchestration</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://dagster.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Dagster</p>
+                <p class="meta">Data Orchestration</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelHead">
+          <p class="h">Data & Storage</p>
+          <span class="hint">object store / vectors / db admin</span>
+        </div>
+        <div class="grid">
+          <a class="card" href="http://minio.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">MinIO Console</p>
+                <p class="meta">Artifacts • Buckets</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://qdrant.localhost/dashboard" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Qdrant</p>
+                <p class="meta">Vector DB</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://db.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Adminer</p>
+                <p class="meta">DB Admin UI</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelHead">
+          <p class="h">Observability</p>
+          <span class="hint">metrics & dashboards</span>
+        </div>
+        <div class="grid">
+          <a class="card" href="http://grafana.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Grafana</p>
+                <p class="meta">Monitoring</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://prometheus.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Prometheus</p>
+                <p class="meta">Metrics store</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://cadvisor.localhost/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">cAdvisor</p>
+                <p class="meta">Container metrics</p>
+                <span class="badge traefik">via traefik</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelHead">
+          <p class="h">Internal Services</p>
+          <span class="hint">container-only • use dev mode for localhost access</span>
+        </div>
+        <div class="grid">
+          <div class="card" style="opacity:0.75; cursor:default; background: rgba(8,14,22,.65);">
+            <div class="row">
+              <div>
+                <p class="title">PostgreSQL</p>
+                <p class="meta">postgres:5432 (internal)</p>
+                <span class="badge manual">dev mode: localhost:5432</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:0.75; cursor:default; background: rgba(8,14,22,.65);">
+            <div class="row">
+              <div>
+                <p class="title">MongoDB</p>
+                <p class="meta">mongodb:27017 (internal)</p>
+                <span class="badge manual">dev mode: localhost:27017</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:0.75; cursor:default; background: rgba(8,14,22,.65);">
+            <div class="row">
+              <div>
+                <p class="title">SQL Server</p>
+                <p class="meta">sqlserver:1433 (internal)</p>
+                <span class="badge manual">dev mode: localhost:1433</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:0.75; cursor:default; background: rgba(8,14,22,.65);">
+            <div class="row">
+              <div>
+                <p class="title">MinIO API</p>
+                <p class="meta">minio:9000 (internal)</p>
+                <span class="badge manual">s3-compatible storage</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelHead">
+          <p class="h">Quick Links</p>
+          <span class="hint">direct ports (bypass Traefik)</span>
+        </div>
+        <div class="grid">
+          <a class="card" href="http://localhost:3000/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">OpenWebUI (direct)</p>
+                <p class="meta">http://localhost:3000/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://localhost:4201/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Prefect (direct)</p>
+                <p class="meta">http://localhost:4201/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://localhost:3051/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Dagster (direct)</p>
+                <p class="meta">http://localhost:3051/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://127.0.0.1:8088/dashboard/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Traefik (direct)</p>
+                <p class="meta">http://127.0.0.1:8088/dashboard/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://127.0.0.1:3001/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Grafana (direct)</p>
+                <p class="meta">http://127.0.0.1:3001/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://127.0.0.1:9090/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Prometheus (direct)</p>
+                <p class="meta">http://127.0.0.1:9090/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://127.0.0.1:8082/" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">cAdvisor (direct)</p>
+                <p class="meta">http://127.0.0.1:8082/</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="card" href="http://127.0.0.1:9100/metrics" target="_blank" rel="noreferrer">
+            <div class="row">
+              <div>
+                <p class="title">Node Exporter (direct)</p>
+                <p class="meta">http://127.0.0.1:9100/metrics</p>
+                <span class="badge direct">direct port</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="footNote">
+        <strong>💡 This is a launcher, not a health monitor.</strong> For real-time service health and metrics, use Grafana, Prometheus, and Traefik dashboards. If a link doesn't open, check your <span class="kbd">hosts</span> file and Traefik routes.
+      </div>
+    </div>
+
+    <div class="foot" style="margin-top:12px; justify-content:flex-end;">
+      <div>Refresh: <span class="kbd">Ctrl</span> + <span class="kbd">F5</span></div>
+    </div>
+  </div>
+</body>
+</html>

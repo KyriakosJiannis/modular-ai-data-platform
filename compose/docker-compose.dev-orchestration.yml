@@ -1,0 +1,21 @@
+# AI Platform - Dev Mode Orchestration Services Port Exposure
+# ============================================================
+#
+# This overlay exposes orchestration service ports to localhost
+# for direct access during development.
+#
+# Use with: docker-compose.yml + docker-compose.orchestration.yml
+#
+# Exposed ports:
+# - Prefect Server: localhost:4201 → 4200
+# - Dagster Webserver: localhost:3051 → 3050
+
+services:
+
+  prefect-server:
+    ports:
+      - "127.0.0.1:4201:4200"
+
+  dagster-webserver:
+    ports:
+      - "127.0.0.1:3051:3050"

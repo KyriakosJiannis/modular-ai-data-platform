@@ -1,0 +1,12 @@
+# Runtime definitions for Ollama when using ROCm (AMD GPUs on Linux/WSL2).
+# Do NOT include this file if you are running a hybrid setup with Ollama installed
+# natively on Windows; the `docker compose` command should omit the `-f ...rocm.yml`
+# file in that case.
+services:
+  ollama:
+    image: ollama/ollama:rocm
+    environment:
+      HSA_OVERRIDE_GFX_VERSION: ${HSA_OVERRIDE_GFX_VERSION:-}
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri

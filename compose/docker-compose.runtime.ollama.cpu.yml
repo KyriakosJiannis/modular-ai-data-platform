@@ -1,0 +1,6 @@
+# CPU-only Ollama runtime image. Perfect for testing or machines without GPUs.
+# This can be used on any platform, including as part of the "everything in Docker"
+# path. Omit when using a hybrid Windows AMD configuration where Ollama runs natively.
+services:
+  ollama:
+    image: ollama/ollama:latest

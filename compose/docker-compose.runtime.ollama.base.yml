@@ -1,0 +1,40 @@
+services:
+  # NOTE: Ollama Containerization Mode
+  # This service is for optional containerized Ollama (Linux deployments).
+  # On Windows, Ollama runs natively on the host and is accessed via host.docker.internal:11434
+  # To use containerized Ollama, run: docker compose --profile runtime up -d
+  ollama:
+    profiles: ["runtime"]
+    env_file:
+      - ../config/env/.env
+    environment:
+      TZ: ${TZ:-UTC}
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE}
+    ports:
+      - target: 11434
+        published: 11434
+        protocol: tcp
+        mode: host
+    volumes:
+      - ../volumes/ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    networks:
+      - ai-infra
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: "16g"
+        reservations:
+          cpus: "1"
+          memory: "4g"
+    restart: unless-stopped
+
+networks:
+  ai-infra:
+    name: ai-infra-net

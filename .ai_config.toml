@@ -1,0 +1,11 @@
+[file_filters]
+exclude = [
+    "volumes/**",
+    "backups/**",
+    "logs/**",
+    "tmp/**",
+    ".venv/**",
+    "venv/**",
+    "node_modules/**",
+    "config/env/.env"
+]

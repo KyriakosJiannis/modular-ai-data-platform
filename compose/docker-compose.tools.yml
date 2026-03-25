@@ -1,0 +1,125 @@
+networks:
+  ai-infra:
+    name: ai-infra-net
+    external: true
+  ai-public:
+    name: ai-public-net
+    external: true
+
+services:
+  # Optional simple UI for chat and model mgmt (connects to Ollama)
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    profiles: ["tools"]
+    env_file:
+      - ../config/env/.env
+    # This opens the door so you can use http://localhost:3000
+    ports:
+      - "3000:8080"
+    environment:
+      TZ: ${TZ:-UTC}
+      # Point to the Windows host instead of a container
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    #  Connecting to the host's Ollama instead of a container, so we skip the health check dependency
+    #  OLLAMA_BASE_URL: http://ollama:11434
+    # depends_on:
+    #   ollama:
+    #     condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - ai-public
+      - ai-infra
+    volumes:
+      - ../volumes/open-webui:/app/backend/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openwebui.rule=Host(`${OPENWEBUI_HOST:-openwebui.localhost}`)"
+      - "traefik.http.routers.openwebui.entrypoints=web"
+      - "traefik.http.services.openwebui.loadbalancer.server.port=8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: "4g"
+        reservations:
+          cpus: "0.5"
+          memory: "1g"
+    restart: unless-stopped
+
+
+  # Simple DB admin UI (works with Postgres, MySQL, etc.)
+  adminer:
+    image: adminer:4.8.1
+    profiles: ["tools"]
+    env_file:
+      - ../config/env/.env
+    environment:
+      TZ: ${TZ:-UTC}
+      ADMINER_DEFAULT_SERVER: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ai-public
+      - ai-infra
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`${ADMINER_HOST:-db.localhost}`)"
+      - "traefik.http.routers.adminer.entrypoints=web"
+      - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "1g"
+        reservations:
+          cpus: "0.25"
+          memory: "512m"
+    restart: unless-stopped
+
+  # MLflow tracking server (optional MLOps component)
+  mlflow:
+    build:
+      context: ../platform/core/mlflow
+      dockerfile: Dockerfile
+    image: ai-mlflow:2.9.2
+    profiles: ["tools"]
+    env_file:
+      - ../config/env/.env
+    environment:
+      TZ: ${TZ:-UTC}
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      --default-artifact-root s3://mlflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    networks:
+      - ai-infra
+      - ai-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mlflow.rule=Host(`${MLFLOW_HOST:-mlflow.localhost}`)"
+      - "traefik.http.routers.mlflow.entrypoints=web"
+      - "traefik.http.services.mlflow.loadbalancer.server.port=5000"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: "4g"
+        reservations:
+          cpus: "0.5"
+          memory: "1g"
+    restart: unless-stopped

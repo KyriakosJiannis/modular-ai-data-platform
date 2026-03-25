@@ -1,0 +1,32 @@
+# AI Platform - Dev Mode Core Services Port Exposure
+# ===================================================
+#
+# This overlay exposes core infrastructure database ports to localhost
+# for direct access during development.
+#
+# Use with: docker-compose.yml + docker-compose.tools.yml
+#
+# Exposed ports:
+# - PostgreSQL: localhost:5432
+# - MongoDB: localhost:27017
+# - Qdrant: localhost:6333, localhost:6334
+# - MinIO: localhost:9000
+
+services:
+
+  postgres:
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  mongodb:
+    ports:
+      - "127.0.0.1:27017:27017"
+
+  qdrant:
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+
+  minio:
+    ports:
+      - "127.0.0.1:9000:9000"

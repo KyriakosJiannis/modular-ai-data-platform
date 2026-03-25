@@ -1,0 +1,16 @@
+# AI Platform - Dev Mode SQL Server Port Exposure
+# ================================================
+#
+# This overlay exposes SQL Server port to localhost
+# for direct access during development.
+#
+# Use with: docker-compose.yml + docker-compose.sqlserver.yml
+#
+# Exposed ports:
+# - SQL Server: localhost:1433
+
+services:
+
+  sqlserver:
+    ports:
+      - "127.0.0.1:1433:1433"
