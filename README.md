@@ -51,23 +51,6 @@ The following screenshots show the platform running locally, demonstrating the u
 Unified entry point to all platform services via Traefik routing.
 
 
-### Key Platform Interfaces
-
-<p align="center">
-  <img src="docs/assets/mlflow-ui.png" width="48%"/>
-  <img src="docs/assets/openwebui-ui.png" width="48%"/>
-</p>
-
-<p align="center">
-  <img src="docs/assets/qdrant-ui.png" width="48%"/>
-</p>
-
-These interfaces represent core capabilities of the platform, including:
-
-- **MLflow** — experiment tracking and model lifecycle  
-- **OpenWebUI** — LLM interaction and prompt testing  
-- **Qdrant** — vector storage and semantic retrieval  
-
 ---
 
 ## Key Capabilities
