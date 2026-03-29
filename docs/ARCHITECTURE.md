@@ -1,6 +1,6 @@
 # Architecture
 
-This document defines the architecture of the Modular AI & Data Platform — a local-first infrastructure backbone for building, testing, and operating modern AI systems.
+This document defines the architecture of Harmonia — Modular AI & Data Platform, a local-first infrastructure backbone for building, testing, and operating modern AI systems.
 
 It outlines system layers, service responsibilities, and interaction patterns, aligned with production-grade AI platform design.
 

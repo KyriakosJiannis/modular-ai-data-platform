@@ -1,11 +1,23 @@
-# Modular AI & Data Platform
+# Harmonia — Modular AI & Data Platform
+
+<p align="center">
+  <img src="docs/assets/logo/dark-logo.png" width="317"/>
+</p>
+
+<p align="center">
+  <strong>A local-first, modular infrastructure backbone for AI systems</strong>
+</p>
+
+<p align="center">
+  ML • RAG • MLOps • Data Pipelines • Agentic Workflows
+</p>
 
 ![Docker](https://img.shields.io/badge/docker--compose-blue)
 ![Architecture](https://img.shields.io/badge/architecture-modular-green)
 ![Scope](https://img.shields.io/badge/scope-local--first-lightgrey)
 ![Domain](https://img.shields.io/badge/domain-ai--data-purple)
 ![Status](https://img.shields.io/badge/status-active--development-yellow)
-![License](https://img.shields.io/badge/license-MIT-green) 
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Overview
 
@@ -22,6 +34,31 @@ It acts as a reusable backbone for:
 All services run through Docker Compose with a unified gateway, mirroring production AI platforms while remaining practical for local development.
 
 The architecture follows patterns commonly used in production AI systems, where infrastructure, runtime, and application layers are decoupled, enabling scalability, reuse, and independent evolution of components.
+
+---
+
+## Why “Harmonia”
+
+The name *Harmonia* comes from the Greek concept of harmony — the idea of bringing independent elements into a coherent whole.
+
+In Greek mythology, Harmonia represents balance and unity between different forces.  
+That concept maps directly to modern AI system design.
+
+Today, AI is no longer a single model.  
+It is a composition of data, storage, retrieval, models, orchestration, and interfaces.
+
+Individually, each component solves a problem.  
+Together, they often introduce complexity.
+
+The goal of this platform is to bring these pieces into alignment — not by tightly coupling them, but by providing a shared foundation where they can operate together consistently.
+
+Harmonia represents that balance:
+
+- modular, but connected  
+- flexible, but structured  
+- local-first, but production-inspired  
+
+A system where everything works together — without rebuilding the same foundation every time.
 
 ---
 
@@ -80,6 +117,43 @@ A typical usage flow looks like:
 5. Promote validated workflows to cloud or production environments  
 
 This enables a full development lifecycle without relying on external infrastructure.
+
+---
+
+## Windows Quick Start
+
+Run the PowerShell startup scripts from the repository root:
+
+```powershell
+.\scripts\windows\up-tools.ps1
+.\scripts\windows\up-full.ps1
+.\scripts\windows\up-full-orchestration.ps1
+```
+
+Recommended choices:
+
+- `.\scripts\windows\up-tools.ps1` for the default platform
+- `.\scripts\windows\up-full.ps1` for core + tools + monitoring + dev access
+- `.\scripts\windows\up-full-orchestration.ps1` for the full stack including Prefect and Dagster
+
+If PowerShell blocks a script with an execution policy error, unblock the Windows scripts once and rerun the command:
+
+```powershell
+Get-ChildItem .\scripts\windows\*.ps1 | Unblock-File
+```
+
+Temporary one-session alternative:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+```
+
+You can inspect running services and active URLs with:
+
+```powershell
+.\scripts\windows\status.ps1
+.\scripts\windows\list-urls.ps1
+```
 
 ---
 
@@ -145,7 +219,7 @@ This positions the platform as a bridge between experimentation and production-g
 ## High-Level Architecture
 
 
-![AI Platform Architecture](docs/architecture/architecture-drawio.png)
+![AI Platform Architecture](docs/architecture/architecture.png)
 
 The platform is structured as a modular, layered system where external applications interact through a gateway and optional service layer, while shared infrastructure (data, runtime, and tools) remains decoupled and reusable.
 

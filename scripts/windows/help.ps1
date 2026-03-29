@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Display available AI Platform commands
+    Display available Harmonia commands
 
 .DESCRIPTION
-    Shows all available platform management commands in a clean, organized format.
+    Shows all available Harmonia management commands in a clean, organized format.
     Use this to discover what operations are available.
 
 .EXAMPLE
@@ -16,7 +16,7 @@
 
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║           AI Platform - Available Commands                    ║" -ForegroundColor Cyan
+Write-Host "║             Harmonia - Available Commands                     ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 

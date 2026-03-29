@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Complete Local Stack (Core + Tools + Monitoring + Dev)
+    Start Harmonia - Modular AI & Data Platform - Complete Local Stack (Core + Tools + Monitoring + Dev)
 
 .DESCRIPTION
     Starts the complete local platform stack with all features and developer conveniences.
@@ -76,7 +76,7 @@ $composeArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Complete Local Stack" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Complete Local Stack" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Stack: Core + Tools + Monitoring + Dev Access" -ForegroundColor Yellow
 

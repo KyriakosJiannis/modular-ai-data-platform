@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Core + Tools + Orchestration
+    Start Harmonia - Modular AI & Data Platform - Core + Tools + Orchestration
 
 .DESCRIPTION
     Starts the platform with orchestration services (Prefect and Dagster).
@@ -74,7 +74,7 @@ $infraOnlyArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Core + Tools + Orchestration (staged startup)" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Core + Tools + Orchestration (staged startup)" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Stack: Core + Tools + Orchestration" -ForegroundColor Yellow
 

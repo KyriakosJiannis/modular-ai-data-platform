@@ -1,7 +1,7 @@
 # Orchestration Layer - Prefect and Dagster
 # ============================================
 #
-# This overlay adds optional workflow orchestration services to the AI Platform.
+# This overlay adds optional workflow orchestration services to Harmonia - Modular AI & Data Platform.
 #
 # Services:
 # - Prefect Server: Python-first workflow orchestration

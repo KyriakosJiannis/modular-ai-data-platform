@@ -1,7 +1,7 @@
-# AI Platform - Docker Compose Base Entrypoint
+# Harmonia - Modular AI & Data Platform - Docker Compose Base Entrypoint
 # ============================================
 #
-# This is the canonical base configuration for the AI Platform.
+# This is the canonical base configuration for Harmonia - Modular AI & Data Platform.
 # It defines the core infrastructure layer that all other services depend on.
 #
 # Core services included:

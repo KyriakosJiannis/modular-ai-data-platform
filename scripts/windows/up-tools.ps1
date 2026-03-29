@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Core + Tools
+    Start Harmonia - Modular AI & Data Platform - Core + Tools
 
 .DESCRIPTION
     Starts the core infrastructure plus user-facing tools.
@@ -62,7 +62,7 @@ $composeArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Core + Tools" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Core + Tools" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir

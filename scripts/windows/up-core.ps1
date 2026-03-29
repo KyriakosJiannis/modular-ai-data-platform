@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Core Infrastructure Only
+    Start Harmonia - Modular AI & Data Platform - Core Infrastructure Only
 
 .DESCRIPTION
     Starts only the core infrastructure layer (Traefik, PostgreSQL, MongoDB, Qdrant, MinIO, Dashboard).
@@ -56,7 +56,7 @@ $composeArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Core Infrastructure" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Core Infrastructure" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir

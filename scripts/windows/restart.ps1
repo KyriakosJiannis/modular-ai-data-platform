@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Restart the AI Platform
+    Restart Harmonia - Modular AI & Data Platform
 
 .DESCRIPTION
     Restarts the supported default platform stack.
@@ -47,7 +47,7 @@ if (-not (Test-Path $envFile)) {
     exit 2
 }
 
-Write-Host "Restarting AI Platform" -ForegroundColor Green
+Write-Host "Restarting Harmonia - Modular AI & Data Platform" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir

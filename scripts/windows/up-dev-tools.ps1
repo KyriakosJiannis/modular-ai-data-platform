@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Core + Tools + Dev Mode
+    Start Harmonia - Modular AI & Data Platform - Core + Tools + Dev Mode
 
 .DESCRIPTION
     Starts the core infrastructure plus user-facing tools with development mode enabled.
@@ -75,7 +75,7 @@ $composeArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Core + Tools + Dev Mode" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Core + Tools + Dev Mode" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Dev mode: Database ports exposed to localhost" -ForegroundColor Yellow
 

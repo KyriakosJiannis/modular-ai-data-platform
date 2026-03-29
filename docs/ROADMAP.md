@@ -1,6 +1,6 @@
 # Platform Roadmap
 
-This roadmap outlines how the Modular AI & Data Platform can evolve from a local-first system into a reusable, production-aligned AI infrastructure layer.
+This roadmap outlines how Harmonia — Modular AI & Data Platform can evolve from a local-first system into a reusable, production-aligned AI infrastructure layer.
 
 It is not timeline-based. It reflects direction, not commitments.
 

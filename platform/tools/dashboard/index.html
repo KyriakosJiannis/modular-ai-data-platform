@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI & Data Platform</title>
+  <title>Harmonia | Modular AI & Data Platform</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
     :root{
@@ -47,25 +47,33 @@
       display:flex; align-items:center; gap:12px;
     }
     .logo{
-      width:44px; height:44px; border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,138,61,.95), rgba(255,138,61,.25) 45%, transparent 70%),
-        radial-gradient(circle at 75% 70%, rgba(58,85,114,.80), transparent 60%),
-        linear-gradient(180deg, #111a2a, #070a0f);
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      object-fit:contain;
+      display:block;
       border:1px solid rgba(255,255,255,.06);
       box-shadow: 0 14px 40px rgba(0,0,0,.45);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo:after{
-      content:"";
-      position:absolute; inset:-2px;
-      background: conic-gradient(from 210deg, transparent, rgba(255,138,61,.22), transparent 45%, rgba(255,176,122,.18), transparent);
-      filter: blur(10px);
-      opacity:.65;
+      background: rgba(10,16,26,.55);
+      padding:6px;
     }
     h1{ margin:0; font-size:20px; letter-spacing:.2px; }
     .subtitle{ color:var(--muted); font-size:13px; margin-top:2px; }
+    .brandText{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .brandTitle{
+      margin:0;
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:.2px;
+      line-height:1.1;
+    }
+    .brandTitle .accent{
+      color: var(--orange);
+    }
 
     .env{
       display:flex; align-items:center; gap:10px;
@@ -284,10 +292,10 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1>AI & Data Platform</h1>
-          <div class="subtitle">Local-first platform control plane for AI, data, and MLOps services</div>
+        <img class="logo" src="./assets/dark-logo.png" alt="Harmonia logo" />
+        <div class="brandText">
+          <h1 class="brandTitle">H<span class="accent">armonia</span></h1>
+          <div class="subtitle">Modular AI &amp; Data Platform</div>
         </div>
       </div>
       <div class="env">
@@ -299,7 +307,7 @@
     <div class="hero">
       <div class="heroRow">
         <div>
-          <h2 class="heroTitle">One place to access your AI &amp; data platform.</h2>
+          <h2 class="heroTitle">One place to access <span class="accent">Harmonia</span>.</h2>
           <p class="heroText">
             Unified access point for your local platform services. Open tools, data stores, and supporting interfaces from one place.
             Badges indicate how each service is accessed (via Traefik, direct port, or internal/manual access).

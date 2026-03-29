@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Stop the AI Platform
+    Stop Harmonia - Modular AI & Data Platform
 
 .DESCRIPTION
     Stops all running platform services cleanly.
@@ -79,11 +79,11 @@ $composeArgs = @(
 # Add volume removal flag if requested
 if ($RemoveVolumes) {
     $composeArgs += "-v"
-    Write-Host "Stopping AI Platform and removing all data volumes" -ForegroundColor Red
+Write-Host "Stopping Harmonia - Modular AI & Data Platform and removing all data volumes" -ForegroundColor Red
     Write-Host "WARNING: This will delete all databases and storage data!" -ForegroundColor Yellow
 }
 else {
-    Write-Host "Stopping AI Platform (data preserved)" -ForegroundColor Green
+Write-Host "Stopping Harmonia - Modular AI & Data Platform (data preserved)" -ForegroundColor Green
 }
 
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan

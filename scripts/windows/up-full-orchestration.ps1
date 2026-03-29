@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start the AI Platform - Complete Stack with Orchestration
+    Start Harmonia - Modular AI & Data Platform - Complete Stack with Orchestration
 
 .DESCRIPTION
     Starts the complete local platform stack with orchestration services.
@@ -88,7 +88,7 @@ $infraOnlyArgs = @(
     "-d"
 )
 
-Write-Host "Starting AI Platform - Complete Stack with Orchestration (staged startup)" -ForegroundColor Green
+Write-Host "Starting Harmonia - Modular AI & Data Platform - Complete Stack with Orchestration (staged startup)" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Stack: Core + Tools + Monitoring + Orchestration + Dev Access" -ForegroundColor Yellow
 

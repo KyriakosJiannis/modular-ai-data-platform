@@ -1,6 +1,6 @@
 # Operations Runbook
 
-This guide provides the operational procedures for starting, stopping, validating, and troubleshooting the Modular AI & Data Platform.
+This guide provides the operational procedures for starting, stopping, validating, and troubleshooting Harmonia — Modular AI & Data Platform.
 
 ---
 
@@ -22,6 +22,26 @@ For runtime-aware service URLs, use:
 ```
 
 ## Starting the Platform
+
+Run all startup scripts from the repository root, for example:
+
+```powershell
+.\scripts\windows\up-tools.ps1
+.\scripts\windows\up-full.ps1
+.\scripts\windows\up-full-orchestration.ps1
+```
+
+If PowerShell blocks a script with an execution policy error, unblock the Windows scripts once and rerun the command:
+
+```powershell
+Get-ChildItem .\scripts\windows\*.ps1 | Unblock-File
+```
+
+Temporary one-session alternative:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+```
 
 ### Default Stack (Recommended)
 

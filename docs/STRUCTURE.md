@@ -1,6 +1,6 @@
 # Repository Structure
 
-This document explains how the Modular AI & Data Platform repository is organized.
+This document explains how the Harmonia - Modular AI & Data Platform repository is organized.
 
 The repository is structured around a simple model:
 

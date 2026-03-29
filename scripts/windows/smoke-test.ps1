@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    AI Platform Smoke Test - Lightweight Release Validation
+    Harmonia - Modular AI & Data Platform Smoke Test
 
 .DESCRIPTION
-    Performs practical smoke tests to validate the AI Platform is operational.
+    Performs practical smoke tests to validate Harmonia - Modular AI & Data Platform is operational.
     Tests different platform layers (core, tools, orchestration, SQL Server) independently.
 
     This is NOT a comprehensive test framework - it's a quick validation utility
@@ -500,7 +500,7 @@ function Test-SqlServerLayer {
 
 function Main {
     Write-Host "`n╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║          AI Platform - Smoke Test Suite                       ║" -ForegroundColor Cyan
+Write-Host "║   Harmonia - Modular AI & Data Platform Tests                 ║" -ForegroundColor Cyan
     Write-Host "╚════════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
 
     # Validate prerequisites

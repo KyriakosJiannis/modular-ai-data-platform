@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Diagnose AI Platform setup and configuration
+    Diagnose Harmonia - Modular AI & Data Platform setup and configuration
 
 .DESCRIPTION
     Performs basic checks to verify the platform is properly configured.
@@ -38,7 +38,7 @@ $volumesDir = Join-Path $repoRoot "volumes"
 
 $allChecksPassed = $true
 
-Write-Host "AI Platform - Diagnostic Check" -ForegroundColor Green
+Write-Host "Harmonia - Modular AI & Data Platform - Diagnostic Check" -ForegroundColor Green
 Write-Host "===============================" -ForegroundColor Green
 Write-Host ""
 

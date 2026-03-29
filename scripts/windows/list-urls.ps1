@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    List all accessible URLs for running AI Platform services
+    List all accessible URLs for running Harmonia - Modular AI & Data Platform services
 
 .DESCRIPTION
     Detects which services are currently running and displays their accessible URLs.
@@ -99,7 +99,7 @@ function Test-PortExposed {
 }
 
 Write-Host "`n╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║          AI Platform - Service URL Reference                  ║" -ForegroundColor Cyan
+Write-Host "║   Harmonia - Modular AI & Data Platform URLs                  ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
 
 # Define services with a consistent schema
