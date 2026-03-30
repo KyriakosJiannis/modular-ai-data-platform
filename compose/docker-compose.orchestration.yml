@@ -1,16 +1,16 @@
 # Orchestration Layer - Prefect and Dagster
 # ============================================
 #
-# This overlay adds optional workflow orchestration services to Harmonia - Modular AI & Data Platform.
+# This overlay adds optional workflow orchestration services to Harmonia - Local-First AI Infrastructure Stack.
 #
 # Services:
 # - Prefect Server: Python-first workflow orchestration
-# - Prefect Worker: Executes Prefect flows
+# - Prefect Agent: Polls Prefect queues and submits flow runs
 # - Dagster Web UI: Data-aware orchestration and asset management
 # - Dagster Daemon: Manages Dagster schedules and sensors
 #
-# These services are OPTIONAL and do not affect core platform operation.
-# They integrate with existing platform services (PostgreSQL, MinIO, etc.)
+# These services are OPTIONAL and do not affect core stack operation.
+# They integrate with existing shared services (PostgreSQL, MinIO, etc.)
 #
 # Usage:
 #   docker compose -f docker-compose.yml -f docker-compose.orchestration.yml up -d
@@ -64,20 +64,20 @@ services:
       - orchestration
 
   # ============================================
-  # Prefect Worker
+  # Prefect Agent
   # ============================================
-  # Prefect Worker executes flows scheduled by Prefect Server.
-  # It polls the server for work and executes flows in containers.
+  # Prefect Agent polls Prefect queues for scheduled flow runs.
+  # It connects to Prefect Server and submits work for execution.
   #
-  # This worker is configured to:
+  # This agent is configured to:
   # - Connect to Prefect Server
-  # - Execute flows with Docker
+  # - Poll the default queue
   # - Use the platform's Docker daemon
   #
   # Note: Requires Docker socket access for flow execution
   prefect-worker:
     image: prefecthq/prefect:2.14.0-python3.11
-    command: prefect worker start --pool default-agent-pool --type docker
+    command: prefect agent start -q default
     environment:
       - PREFECT_API_URL=http://prefect-server:4200/api
       - PREFECT_HOME=/root/.prefect

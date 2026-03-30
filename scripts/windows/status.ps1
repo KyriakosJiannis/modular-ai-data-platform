@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Display the status of running Harmonia - Modular AI & Data Platform services
+    Display the status of running Harmonia services
 
 .DESCRIPTION
-    Shows a clean, human-friendly table of all running platform containers.
+    Shows a clean, human-friendly table of all running stack containers.
     Displays container names, status, and port mappings.
 
 .EXAMPLE
@@ -49,7 +49,7 @@ $platformServices = @(
     "ollama"
 )
 
-Write-Host "Harmonia - Modular AI & Data Platform - Service Status" -ForegroundColor Green
+Write-Host "Harmonia - Service Status" -ForegroundColor Green
 Write-Host "=============================" -ForegroundColor Green
 Write-Host ""
 

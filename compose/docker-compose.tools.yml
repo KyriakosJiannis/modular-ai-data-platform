@@ -10,7 +10,7 @@ services:
   # Optional simple UI for chat and model mgmt (connects to Ollama)
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:latest
+    image: ghcr.io/open-webui/open-webui:v0.8.12
     profiles: ["tools"]
     env_file:
       - ../config/env/.env

@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    Harmonia - Modular AI & Data Platform Smoke Test
+    Harmonia Smoke Test
 
 .DESCRIPTION
-    Performs practical smoke tests to validate Harmonia - Modular AI & Data Platform is operational.
-    Tests different platform layers (core, tools, orchestration, SQL Server) independently.
+    Performs practical smoke tests to validate Harmonia is operational.
+    Tests different stack layers (core, tools, orchestration, SQL Server) independently.
 
     This is NOT a comprehensive test framework - it's a quick validation utility
     for pre-release checks, local environment verification, and regression testing.
@@ -43,7 +43,7 @@
 
 .EXAMPLE
     .\smoke-test.ps1 -All
-    # Test all platform layers
+    # Test all stack layers
 
 .EXAMPLE
     .\smoke-test.ps1 -Core -NoStart
@@ -259,7 +259,7 @@ function Start-PlatformStack {
         [string[]]$Profiles
     )
 
-    Write-Host "`n🚀 Starting platform stack..." -ForegroundColor Yellow
+    Write-Host "`n🚀 Starting stack..." -ForegroundColor Yellow
     Write-Host "   Compose files: $($ComposeFiles -join ', ')" -ForegroundColor Gray
     Write-Host "   Profiles: $($Profiles -join ', ')" -ForegroundColor Gray
 
@@ -294,7 +294,7 @@ function Stop-PlatformStack {
         [string[]]$ComposeFiles
     )
 
-    Write-Host "`n🛑 Stopping platform stack..." -ForegroundColor Yellow
+    Write-Host "`n🛑 Stopping stack..." -ForegroundColor Yellow
 
     $composeArgs = @("--env-file", $envFile)
 
@@ -500,7 +500,7 @@ function Test-SqlServerLayer {
 
 function Main {
     Write-Host "`n╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║   Harmonia - Modular AI & Data Platform Tests                 ║" -ForegroundColor Cyan
+Write-Host "║              Harmonia - Stack Tests                           ║" -ForegroundColor Cyan
     Write-Host "╚════════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
 
     # Validate prerequisites

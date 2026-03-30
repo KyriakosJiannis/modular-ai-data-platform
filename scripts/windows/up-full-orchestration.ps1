@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start Harmonia - Modular AI & Data Platform - Complete Stack with Orchestration
+    Start Harmonia - Complete Stack with Orchestration
 
 .DESCRIPTION
     Starts the complete local platform stack with orchestration services.
@@ -10,7 +10,7 @@
     - Core infrastructure (Traefik, PostgreSQL, MongoDB, Qdrant, MinIO, Dashboard)
     - Tools (OpenWebUI, MLflow, Adminer)
     - Monitoring (Prometheus, Grafana, cAdvisor, Node Exporter)
-    - Orchestration (Prefect Server, Prefect Worker, Dagster Web, Dagster Daemon)
+    - Orchestration (Prefect Server, Prefect Agent, Dagster Web, Dagster Daemon)
     - Dev overrides (local database port exposure)
 
     Use this when you need the complete platform with all features.
@@ -77,7 +77,8 @@ $composeArgs = @(
     "--profile", "monitoring",
     "--profile", "orchestration",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
 $infraOnlyArgs = @(
@@ -85,10 +86,11 @@ $infraOnlyArgs = @(
     "-f", "docker-compose.yml",
     "--profile", "infra",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
-Write-Host "Starting Harmonia - Modular AI & Data Platform - Complete Stack with Orchestration (staged startup)" -ForegroundColor Green
+Write-Host "Starting Harmonia - Complete Stack with Orchestration (staged startup)" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Stack: Core + Tools + Monitoring + Orchestration + Dev Access" -ForegroundColor Yellow
 
@@ -108,7 +110,7 @@ try {
     Write-Host "[3/3] Starting remaining services (tools + monitoring + orchestration + dev)..." -ForegroundColor Yellow
     & docker compose @composeArgs
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "`n✅ Complete platform with orchestration started successfully" -ForegroundColor Green
+        Write-Host "`n✅ Complete stack with orchestration started successfully" -ForegroundColor Green
         Write-Host "`nService URLs:" -ForegroundColor Cyan
         Write-Host "  Dashboard: http://ai.localhost" -ForegroundColor Cyan
         Write-Host "  OpenWebUI: http://openwebui.localhost" -ForegroundColor Cyan

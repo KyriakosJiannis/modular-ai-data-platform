@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Stop Harmonia - Modular AI & Data Platform
+    Stop Harmonia
 
 .DESCRIPTION
-    Stops all running platform services cleanly.
+    Stops all running stack services cleanly.
     Preserves data volumes (databases, storage) by default.
     Use -RemoveVolumes to also delete all data.
 
@@ -52,7 +52,7 @@ $envFile = Join-Path $repoRoot "config\env\.env"
 
 # Validate environment file exists
 if (-not (Test-Path $envFile)) {
-    Write-Error "Missing $envFile. Create it from config/env/.env.example before managing the platform."
+    Write-Error "Missing $envFile. Create it from config/env/.env.example before managing the stack."
     exit 2
 }
 
@@ -73,17 +73,18 @@ $composeArgs = @(
     "-f", "docker-compose.dev-core.yml",
     "-f", "docker-compose.dev-orchestration.yml",
     "-f", "docker-compose.dev-sqlserver.yml",
-    "down"
+    "down",
+    "--remove-orphans"
 )
 
 # Add volume removal flag if requested
 if ($RemoveVolumes) {
     $composeArgs += "-v"
-Write-Host "Stopping Harmonia - Modular AI & Data Platform and removing all data volumes" -ForegroundColor Red
+Write-Host "Stopping Harmonia and removing all data volumes" -ForegroundColor Red
     Write-Host "WARNING: This will delete all databases and storage data!" -ForegroundColor Yellow
 }
 else {
-Write-Host "Stopping Harmonia - Modular AI & Data Platform (data preserved)" -ForegroundColor Green
+Write-Host "Stopping Harmonia (data preserved)" -ForegroundColor Green
 }
 
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
@@ -93,10 +94,10 @@ try {
     & docker compose @composeArgs
     if ($LASTEXITCODE -eq 0) {
         if ($RemoveVolumes) {
-            Write-Host "`n✅ Platform stopped and all data removed" -ForegroundColor Green
+            Write-Host "`n✅ Stack stopped and all data removed" -ForegroundColor Green
         }
         else {
-            Write-Host "`n✅ Platform stopped successfully" -ForegroundColor Green
+            Write-Host "`n✅ Stack stopped successfully" -ForegroundColor Green
             Write-Host "Data preserved in volumes/" -ForegroundColor Cyan
         }
     }

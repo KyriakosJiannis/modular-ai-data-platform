@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start Harmonia - Modular AI & Data Platform - Core + Tools + Monitoring
+    Start Harmonia - Core + Tools + Monitoring
 
 .DESCRIPTION
     Starts the complete platform stack including observability tools.
@@ -63,17 +63,18 @@ $composeArgs = @(
     "--profile", "tools",
     "--profile", "monitoring",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
-Write-Host "Starting Harmonia - Modular AI & Data Platform - Core + Tools + Monitoring" -ForegroundColor Green
+Write-Host "Starting Harmonia - Core + Tools + Monitoring" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir
 try {
     & docker compose @composeArgs
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "`n✅ Platform with monitoring started successfully" -ForegroundColor Green
+        Write-Host "`n✅ Stack with monitoring started successfully" -ForegroundColor Green
         Write-Host "Dashboard: http://ai.localhost" -ForegroundColor Cyan
         Write-Host "Grafana: http://127.0.0.1:3001 (admin / check .env)" -ForegroundColor Cyan
         Write-Host "Prometheus: http://127.0.0.1:9090" -ForegroundColor Cyan

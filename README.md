@@ -1,16 +1,13 @@
-# Harmonia — Modular AI & Data Platform
+# Harmonia — Local-First AI Infrastructure Stack
 
 <p align="center">
   <img src="docs/assets/logo/dark-logo.png" width="317"/>
 </p>
 
 <p align="center">
-  <strong>A local-first, modular infrastructure backbone for AI systems</strong>
+  <strong>A modular, containerized environment for building, testing, and benchmarking AI systems locally</strong>
 </p>
 
-<p align="center">
-  ML • RAG • MLOps • Data Pipelines • Agentic Workflows
-</p>
 
 ![Docker](https://img.shields.io/badge/docker--compose-blue)
 ![Architecture](https://img.shields.io/badge/architecture-modular-green)
@@ -21,9 +18,13 @@
 
 ## Overview
 
-This repository provides a local-first, modular AI & Data platform designed for engineers, consultants, and advanced practitioners who want to build real-world AI systems without relying on cloud infrastructure.
+Harmonia is a local-first AI infrastructure stack for engineers who want working AI services quickly, without wiring them together by hand.
 
-It acts as a reusable backbone for:
+**Project Status**
+
+Current focus: local-first AI infrastructure for rapid prototyping, validation, and reusable experimentation workflows.
+
+It packages the core services commonly used in:
 
 - RAG pipelines  
 - MLOps workflows  
@@ -31,40 +32,69 @@ It acts as a reusable backbone for:
 - agentic systems  
 - LLM experimentation  
 
-All services run through Docker Compose with a unified gateway, mirroring production AI platforms while remaining practical for local development.
+The repository is built around Docker Compose, a unified local gateway, and reusable shared services that external projects can connect to directly.
 
-The architecture follows patterns commonly used in production AI systems, where infrastructure, runtime, and application layers are decoupled, enabling scalability, reuse, and independent evolution of components.
+## What This Repo Demonstrates
+
+- Docker Compose service composition
+- Traefik-based local routing
+- Reproducible local AI workflow infrastructure
+
+## Runnable Examples
+
+The repository includes two quick examples that show the stack working in practice:
+
+- [`examples/mlflow-demo`](examples/mlflow-demo/README.md) -> local experiment tracking with MLflow
+- [`examples/rag-demo`](examples/rag-demo/README.md) -> local retrieval workflow with Qdrant and Ollama
+
+Start the stack, open an example, and run the notebook end to end.
+
+Related article: [The Hidden Tax of Every AI Project](https://medium.com/@kyrJian/the-hidden-tax-of-every-ai-project-rebuilding-the-same-environment-1c97a8e4a5a0)
+
+## Start in 60 Seconds
+
+From the repository root:
+
+Default stack:
+
+```powershell
+.\scripts\windows\start.ps1
+```
+
+Developer stack with direct localhost data access:
+
+```powershell
+.\scripts\windows\start-dev.ps1
+```
+
+Then open:
+
+- `http://ai.localhost`
+
+Useful follow-ups:
+
+- `.\scripts\windows\list-urls.ps1` -> show active URLs
+- `.\scripts\windows\status.ps1` -> show running services
+
+If PowerShell blocks scripts:
+
+```powershell
+Get-ChildItem .\scripts\windows\*.ps1 | Unblock-File
+```
 
 ---
 
 ## Why “Harmonia”
 
-The name *Harmonia* comes from the Greek concept of harmony — the idea of bringing independent elements into a coherent whole.
+The name *Harmonia* reflects the goal of the stack: bringing storage, retrieval, runtime, tracking, and tooling into one consistent local environment without tightly coupling them.
 
-In Greek mythology, Harmonia represents balance and unity between different forces.  
-That concept maps directly to modern AI system design.
-
-Today, AI is no longer a single model.  
-It is a composition of data, storage, retrieval, models, orchestration, and interfaces.
-
-Individually, each component solves a problem.  
-Together, they often introduce complexity.
-
-The goal of this platform is to bring these pieces into alignment — not by tightly coupling them, but by providing a shared foundation where they can operate together consistently.
-
-Harmonia represents that balance:
-
-- modular, but connected  
-- flexible, but structured  
-- local-first, but production-inspired  
-
-A system where everything works together — without rebuilding the same foundation every time.
+Modern AI work is rarely just a model. It is a set of moving parts that need to work together reliably enough to support experimentation, reuse, and iteration.
 
 ---
 
 ## What You Get
 
-Running this platform provides a complete local AI & data environment with:
+Running this stack provides a complete local AI and data environment with:
 
 - relational, document, and vector databases  
 - object storage for datasets and artifacts  
@@ -73,26 +103,26 @@ Running this platform provides a complete local AI & data environment with:
 - optional workflow orchestration  
 - optional monitoring and observability  
 
-All services are accessible through a unified gateway and can be composed into end-to-end AI workflows.
+Services are exposed through a unified gateway and can be combined into end-to-end local AI workflows.
 
 ---
 
-## Platform in Action
+## Stack in Action
 
-The following screenshots show the platform running locally, demonstrating the unified gateway, experiment tracking, and LLM interaction capabilities.
+The following screenshot shows the stack running locally, including the gateway-routed entry point and attached services.
 
-### Platform Dashboard
+### Stack Dashboard
 
 <img src="docs/assets/dashboard.png" width="900"/>
 
-Unified entry point to all platform services via Traefik routing.
+Unified entry point to the services exposed through Traefik.
 
 
 ---
 
 ## Key Capabilities
 
-- Modular AI and data platform architecture  
+- Modular AI and data infrastructure layout  
 - Self-hosted storage, vector search, and artifact infrastructure  
 - Experiment tracking and model lifecycle support  
 - Local LLM runtime with CPU/GPU or external API options  
@@ -105,9 +135,9 @@ Unified entry point to all platform services via Traefik routing.
 
 A typical usage flow looks like:
 
-1. Start the platform using the provided scripts  
+1. Start the stack using the provided scripts  
 2. Connect an external project (e.g. RAG, ML pipeline, or API service)  
-3. Use platform services:
+3. Use the available services:
    - MLflow for experiment tracking  
    - Qdrant for vector search  
    - PostgreSQL for structured data  
@@ -116,54 +146,17 @@ A typical usage flow looks like:
 4. Iterate and experiment locally  
 5. Promote validated workflows to cloud or production environments  
 
-This enables a full development lifecycle without relying on external infrastructure.
+This supports local development, validation, and benchmarking without requiring cloud infrastructure.
 
 ---
 
-## Windows Quick Start
-
-Run the PowerShell startup scripts from the repository root:
-
-```powershell
-.\scripts\windows\up-tools.ps1
-.\scripts\windows\up-full.ps1
-.\scripts\windows\up-full-orchestration.ps1
-```
-
-Recommended choices:
-
-- `.\scripts\windows\up-tools.ps1` for the default platform
-- `.\scripts\windows\up-full.ps1` for core + tools + monitoring + dev access
-- `.\scripts\windows\up-full-orchestration.ps1` for the full stack including Prefect and Dagster
-
-If PowerShell blocks a script with an execution policy error, unblock the Windows scripts once and rerun the command:
-
-```powershell
-Get-ChildItem .\scripts\windows\*.ps1 | Unblock-File
-```
-
-Temporary one-session alternative:
-
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-```
-
-You can inspect running services and active URLs with:
-
-```powershell
-.\scripts\windows\status.ps1
-.\scripts\windows\list-urls.ps1
-```
-
----
-
-## Why This Platform Exists
+## Why This Stack Exists
 
 Modern AI systems are composed systems involving data pipelines, vector search, model tracking, orchestration, and runtime environments.
 
 Reproducing this architecture typically requires complex cloud setups.
 
-This platform provides a local-first alternative, allowing you to:
+This stack provides a local-first alternative, allowing you to:
 
 - develop and test full AI systems without cloud cost  
 - validate architecture decisions before production deployment  
@@ -173,14 +166,14 @@ This platform provides a local-first alternative, allowing you to:
 
 ## Differentiation
 
-Unlike typical AI repositories that focus on individual tools or isolated demos, this platform:
+Unlike AI repositories that focus on a single tool or isolated demo, this repository:
 
-- provides an end-to-end AI infrastructure layer, not just examples  
+- provides a reusable AI infrastructure layer, not just examples  
 - supports multiple independent projects through a shared backbone  
 - mirrors production architectures while remaining lightweight  
 - enables local-first experimentation without cloud dependency  
 
-This positions the platform as a bridge between experimentation and production-grade system design.
+This positions the repository as a practical bridge between experimentation and more formal deployment work.
 
 ### Key Characteristics
 
@@ -188,7 +181,7 @@ This positions the platform as a bridge between experimentation and production-g
 |----------|------------|
 | Modular | Compose only the services you need |
 | Local-first | No cloud dependency required |
-| Production-inspired | Mirrors real AI platform architectures |
+| Production-inspired | Reflects common layered AI system patterns |
 | Reusable | Supports multiple external projects |
 
 ---
@@ -218,10 +211,9 @@ This positions the platform as a bridge between experimentation and production-g
 
 ## High-Level Architecture
 
+![AI Infrastructure Architecture](docs/architecture/architecture.png)
 
-![AI Platform Architecture](docs/architecture/architecture.png)
-
-The platform is structured as a modular, layered system where external applications interact through a gateway and optional service layer, while shared infrastructure (data, runtime, and tools) remains decoupled and reusable.
+The stack is structured as a modular, layered system where external applications interact through a gateway and optional service layer, while shared infrastructure remains decoupled and reusable.
 
 Key concepts illustrated in the diagram:
 - External systems connect via the gateway and application/service layer
@@ -248,7 +240,7 @@ Full architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 | Monitoring | Prometheus/Grafana | Metrics |
 | Optional | SQL Server | Enterprise |
 
-Each component is independently deployable and connected through a shared network, enabling flexible composition of AI workflows.
+Each component is independently deployable and connected through a shared network, enabling flexible local composition of AI workflows.
 
 ### Service Access Pattern
 
@@ -256,11 +248,11 @@ All services are exposed through a unified gateway (Traefik) using local domain 
 
 Internal communication between services occurs within the Docker network, while external applications connect via HTTP APIs, database ports, or service endpoints.
 
-This mirrors production architectures where a gateway manages traffic and services remain isolated but interoperable.
+This reflects common deployment patterns where a gateway manages traffic and services remain isolated but interoperable.
 
 **Runtime Abstraction**
 
-The platform abstracts LLM execution from the rest of the system.
+The stack abstracts LLM execution from the rest of the system.
 
 Inference can be executed via:
 
@@ -269,7 +261,7 @@ Inference can be executed via:
   - on the host machine (common in local-first setups, especially on non-NVIDIA environments)
 - External LLM APIs (e.g. OpenAI or other providers)
 
-This enables the same platform architecture to operate across different environments without changes to application logic.
+This allows the same stack layout to operate across different environments without changing application logic.
 
 ---
 
@@ -307,13 +299,13 @@ Reason:
 
 ---
 
-## Platform Usage Model
+## Usage Model
 
-The platform supports two primary usage patterns.
+The repository supports two primary usage patterns.
 
 ### Mode 1: Infrastructure Backbone
 
-External repositories use the platform as a shared infrastructure layer, connecting through APIs, database connections, and service endpoints exposed via the gateway.
+External repositories use Harmonia as a shared infrastructure layer, connecting through APIs, database connections, and service endpoints exposed via the gateway.
 
 This is the recommended approach for:
 - RAG systems  
@@ -327,19 +319,19 @@ Typical external projects include:
 - news or document processing systems  
 - ML experimentation environments  
 
-Each project remains independent while leveraging the platform for storage, computation, and AI capabilities.
+Each project remains independent while leveraging the stack for storage, computation, and AI-related services.
 
 ### Mode 2: Internal Apps
 
 Services can live inside the `/apps` directory.
 
-The `/apps` directory contains optional, platform-integrated services — not the primary purpose of the repository.
+The `/apps` directory contains optional, repository-integrated services, not the primary purpose of the repository.
 
 Typical examples include:
 - RAG APIs
 - ingestion pipelines
 - training workers
-- feature-oriented platform components
+- feature-oriented shared components
 
 ---
 
@@ -371,77 +363,34 @@ Recommended environment and resources:
 
 ---
 
-## Starting the Platform
+## Start Modes
 
 The supported operational surface is the Windows PowerShell scripts in `scripts/windows/`.
 
-Linux and macOS can use the same compose files manually, but the documented quick-start workflow in this repository is Windows-first.
+Primary entry points:
 
+- `.\scripts\windows\start.ps1` -> default stack
+- `.\scripts\windows\start-dev.ps1` -> default stack + localhost data access
 
-### Quick Start (Recommended)
+Linux wrappers are also available:
 
-Start the platform (recommended default setup):
+- `./scripts/linux/start.sh` -> default stack
+- `./scripts/linux/start-dev.sh` -> default stack + localhost data access
 
-~~~powershell
-.\scripts\windows\up-tools.ps1
-~~~
+Additional modes:
 
-Then open:
+- `.\scripts\windows\up-full.ps1` -> monitoring + dev access
+- `.\scripts\windows\up-orchestration.ps1` -> orchestration
+- `.\scripts\windows\up-full-orchestration.ps1` -> full stack + orchestration
 
-- http://ai.localhost  
+`start-dev.ps1` exposes:
 
-This is the main entry point to the platform, providing access to all services through a unified dashboard.
+- PostgreSQL -> `localhost:5432`
+- MongoDB -> `localhost:27017`
+- Qdrant -> `localhost:6333`
+- MinIO API -> `localhost:9000`
 
-To see all active services and access URLs:
-
-~~~powershell
-.\scripts\windows\list-urls.ps1
-~~~
-
-### Development Mode (Direct Data Access)
-
-Use development mode when you need direct access to data services via localhost (e.g. for debugging, local scripts, or external tools).
-
-~~~powershell
-.\scripts\windows\down.ps1
-.\scripts\windows\up-dev-tools.ps1
-~~~
-
-This mode exposes core data services directly on localhost:
-
-- PostgreSQL (5432)
-- MongoDB (27017)
-- Qdrant (6333)
-- MinIO API (9000)
-
-Orchestration services (Prefect, Dagster) expose direct ports only when the orchestration dev overlay is enabled.
-
----
-
-### Additional Startup Modes
-
-Use these modes when you need additional capabilities beyond the default setup:
-
-Start full platform (including monitoring):
-
-~~~powershell
-.\scripts\windows\up-full.ps1
-~~~
-
-Start with orchestration (Prefect / Dagster):
-
-~~~powershell
-.\scripts\windows\up-orchestration.ps1
-~~~
-
-Full platform + orchestration:
-
-~~~powershell
-.\scripts\windows\up-full-orchestration.ps1
-~~~
-
-These scripts encapsulate the correct Docker Compose files and startup profiles.
-
+Linux and macOS can use the same compose files manually. The repository now includes Linux wrapper scripts, but the documented quick-start path remains Windows-first and the Linux path has not yet been fully validated across distributions.
 
 ### Manual Startup (Docker Compose)
 
@@ -475,11 +424,11 @@ docker compose --env-file .\config\env\.env `
 
 ## Next Steps
 
-Once the platform is running:
+Once the stack is running:
 
-1. Open the dashboard → http://ai.localhost  
-2. Explore available services  
-3. Run an example from `/examples`  
+1. Open the dashboard -> `http://ai.localhost`
+2. Check active URLs with `.\scripts\windows\list-urls.ps1`
+3. Run an example from `/examples`
 
 For detailed operations and troubleshooting, see:
 
@@ -497,15 +446,15 @@ Services can be accessed in two ways:
 
 ---
 
-## Accessing Platform Services
+## Accessing Services
 
-Once the platform is running, core services are accessible through local domains and, where enabled, direct host ports.
+Once the stack is running, core services are accessible through local domains and, where enabled, direct host ports.
 
 ### Core Services
 
 | Service | Traefik URL | Direct URL | Description |
 |--------|-------------|------------|-------------|
-| Platform Dashboard | http://ai.localhost | — | Main platform entry point |
+| Stack Dashboard | http://ai.localhost | — | Main stack entry point |
 | OpenWebUI | http://openwebui.localhost | http://localhost:3000 | LLM chat interface |
 | MLflow | http://mlflow.localhost | — | Experiment tracking UI |
 | Adminer | http://db.localhost | — | Database administration |
@@ -543,9 +492,9 @@ Once the platform is running, core services are accessible through local domains
 
 ## Examples
 
-The platform includes curated example projects that demonstrate how to build end-to-end AI workflows on top of the provided infrastructure.
+The repository includes curated example projects that demonstrate how to build end-to-end AI workflows on top of the provided infrastructure.
 
-Each example is self-contained and integrates directly with platform services such as MLflow, Qdrant, PostgreSQL, MinIO, and Ollama.
+Each example is self-contained and integrates directly with services such as MLflow, Qdrant, PostgreSQL, MinIO, and Ollama.
 
 | Example | Description | Location |
 |--------|-------------|----------|
@@ -572,18 +521,31 @@ Detailed architecture, services, and operations guidance is available in the doc
 
 ---
 
+## Technical Trade-offs
+
+| Decision | Why |
+|---|---|
+| Local-first defaults | Optimize for fast setup and easy inspection |
+| Version pinning where used | Improve reproducibility and reduce upstream breakage |
+| Dev-friendly Traefik dashboard | Make routing and service debugging easier during local development |
+| Repo-local volumes | Keep persistence simple and visible for local use |
+
+These defaults are intentional for development and are not presented as production-safe settings.
+
+---
+
 ## Repository Structure
 
 ```text
 ai-platform/
 │
 ├─ compose/   # Docker Compose configuration
-├─ config/    # Environment and platform configuration
+├─ config/    # Environment and shared configuration
 ├─ scripts/   # Startup and operational scripts
 ├─ docs/      # Architecture and operational documentation
 ├─ examples/  # Example AI workflows (RAG, MLflow, etc.)
-├─ apps/      # Optional platform-integrated services
-├─ platform/  # Platform-level services and components
+├─ apps/      # Optional integrated services
+├─ platform/  # Service assets and dashboard components
 ├─ README.md  # Project overview
 ```
 
@@ -592,19 +554,19 @@ Runtime-generated directories such as `volumes/`, `logs/`, `tmp/`, and `backups/
 ---
 ## Operational Model
 
-This platform is designed as:
+This repository is designed as:
 
 - a local-first development environment
 - a reusable infrastructure backbone
-- a production-inspired architecture (not production deployment)
+- a production-inspired architecture (not a production control plane)
 
-All services are:
+Services are:
 
 - containerized via Docker Compose
 - accessible via a unified gateway (Traefik)
 - loosely coupled and independently replaceable
 
-The platform prioritizes:
+The repository prioritizes:
 
 - clarity over feature completeness
 - modularity over monolithic design
@@ -614,12 +576,7 @@ The platform prioritizes:
 
 ## Roadmap
 
-| Version | Focus |
-|--------|------|
-| v2 | Advanced RAG, graph-based retrieval, MCP-style interoperability, cloud deployment variants |
-| Future | Expanded examples, improved observability, and evolution toward enterprise-ready architecture |
-
-The platform is designed to evolve toward cloud and enterprise-ready deployments while maintaining its modular architecture.
+Short version: see [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ---
 

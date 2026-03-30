@@ -1,13 +1,13 @@
 # Repository Structure
 
-This document explains how the Harmonia - Modular AI & Data Platform repository is organized.
+This document explains how the Harmonia - Local-First AI Infrastructure Stack repository is organized.
 
 The repository is structured around a simple model:
 
-- `compose/` defines how the platform runs
-- `platform/` contains platform service assets and build context
-- `apps/` holds optional platform-integrated services
-- `examples/` shows how external projects consume the platform
+- `compose/` defines how the stack runs
+- `platform/` contains service assets and build context
+- `apps/` holds optional integrated services
+- `examples/` shows how external projects consume the stack
 - `docs/` contains the main documentation set
 - `scripts/` contains operational helpers
 - `config/` contains shared environment and service configuration
@@ -20,8 +20,8 @@ The repository is structured around a simple model:
 ```text
 ai-platform/
 ├── compose/      # Docker Compose definitions and overlays
-├── platform/     # Platform assets, Dockerfiles, configs, dashboards
-├── apps/         # Optional platform-integrated services
+├── platform/     # Service assets, Dockerfiles, configs, dashboards
+├── apps/         # Optional integrated services
 ├── examples/     # Example integrations and demos
 ├── docs/         # Architecture, services, runbook, roadmap
 ├── config/       # Shared configuration and environment files
@@ -35,7 +35,7 @@ ai-platform/
 
 ### `compose/`
 
-Contains the Docker Compose files that define the platform topology.
+Contains the Docker Compose files that define the stack topology.
 
 Key files:
 
@@ -49,13 +49,13 @@ Key files:
 - `docker-compose.dev-sqlserver.yml` -> direct host access for SQL Server
 - `docker-compose.runtime.ollama.*.yml` -> optional containerized runtime variants
 
-This directory defines the platform as a layered compose model rather than a single monolithic stack.
+This directory defines the stack as a layered compose model rather than a single monolithic stack.
 
 ---
 
 ### `platform/`
 
-Contains assets used by platform services.
+Contains assets used by the packaged services.
 
 Examples:
 
@@ -64,13 +64,13 @@ Examples:
 - orchestration build context
 - monitoring configuration
 
-This directory represents what the platform services run from.
+This directory represents what the shared services run from.
 
 ---
 
 ### `apps/`
 
-Contains optional platform-integrated services that may run alongside the shared platform infrastructure.
+Contains optional integrated services that may run alongside the shared infrastructure.
 
 Typical examples include:
 
@@ -79,21 +79,21 @@ Typical examples include:
 - feature-oriented services
 - training or worker components
 
-This directory is optional. The platform is primarily designed to support external projects connecting into the shared infrastructure backbone.
+This directory is optional. The repository is primarily designed to support external projects connecting into the shared infrastructure backbone.
 
 ---
 
 ### `examples/`
 
-Contains runnable examples that demonstrate how external projects consume the platform services.
+Contains runnable examples that demonstrate how external projects consume the shared services.
 
 These examples are intended for:
 
 - integration reference
 - experimentation
-- validation of platform usage patterns
+- validation of stack usage patterns
 
-Examples are not the platform itself and should not be interpreted as the primary product surface.
+Examples are not the stack itself and should not be interpreted as the primary product surface.
 
 ---
 
@@ -118,7 +118,7 @@ Legacy review notes and internal working material should remain clearly separate
 
 ### `config/`
 
-Contains shared configuration used by the compose stack and platform services.
+Contains shared configuration used by the compose stack and packaged services.
 
 Typical contents:
 
@@ -130,18 +130,22 @@ Typical contents:
 
 ### `scripts/`
 
-Contains operational scripts used to start, stop, inspect, and validate the platform.
+Contains operational scripts used to start, stop, inspect, and validate the stack.
 
 The supported Windows operational surface is intentionally small and focused on:
 
-- starting core infrastructure
-- starting the default core + tools stack
+- starting the default stack
+- starting the developer stack with direct localhost data access
 - enabling monitoring
 - enabling orchestration
-- enabling direct localhost access for development
-- stopping the platform
-- checking platform status
+- stopping the stack
+- checking stack status
 - validating local setup
+
+Primary entry points:
+
+- `start.ps1` -> recommended default startup
+- `start-dev.ps1` -> default startup plus localhost access to core data services
 
 These scripts are part of the operational interface of the repository and should remain aligned with the compose source of truth.
 
@@ -149,7 +153,7 @@ These scripts are part of the operational interface of the repository and should
 
 ### `volumes/`
 
-Contains local persistent runtime state created by Docker and platform services.
+Contains local persistent runtime state created by Docker and the packaged services.
 
 Examples:
 
@@ -170,7 +174,7 @@ The repository supports two usage patterns.
 
 ### 1. Infrastructure Backbone (Recommended)
 
-External AI or data projects live in separate repositories and connect to the platform services through APIs, databases, object storage, vector storage, and runtime endpoints.
+External AI or data projects live in separate repositories and connect to the shared services through APIs, databases, object storage, vector storage, and runtime endpoints.
 
 Typical examples:
 
@@ -179,9 +183,9 @@ Typical examples:
 - analytics pipelines
 - agentic workflows
 
-### 2. Platform-Integrated Services
+### 2. Repository-Integrated Services
 
-Reusable services may also live inside `/apps` and run within the same platform environment.
+Reusable services may also live inside `/apps` and run within the same repository environment.
 
 This is optional and secondary to the infrastructure-backbone model.
 
@@ -193,8 +197,8 @@ This is optional and secondary to the infrastructure-backbone model.
 |---|---|
 | `compose/` | Compose topology and overlays |
 | `platform/` | Service assets and build context |
-| `apps/` | Optional platform-integrated services |
-| `examples/` | Example platform consumers |
+| `apps/` | Optional integrated services |
+| `examples/` | Example stack consumers |
 | `docs/` | Main documentation set |
 | `config/` | Shared environment and config |
 | `scripts/` | Operational commands |
@@ -204,8 +208,8 @@ This is optional and secondary to the infrastructure-backbone model.
 
 ## Related Documentation
 
-- [README.md](../README.md) -> platform overview
+- [README.md](../README.md) -> repository overview
 - [ARCHITECTURE.md](ARCHITECTURE.md) -> system design
 - [SERVICES.md](SERVICES.md) -> service catalog
 - [RUNBOOK.md](RUNBOOK.md) -> operations
-- [ROADMAP.md](ROADMAP.md) -> platform evolution
+- [ROADMAP.md](ROADMAP.md) -> stack evolution

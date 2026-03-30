@@ -1,7 +1,7 @@
-# Harmonia - Modular AI & Data Platform - Docker Compose Base Entrypoint
+# Harmonia - Local-First AI Infrastructure Stack - Docker Compose Base Entrypoint
 # ============================================
 #
-# This is the canonical base configuration for Harmonia - Modular AI & Data Platform.
+# This is the canonical base configuration for Harmonia - Local-First AI Infrastructure Stack.
 # It defines the core infrastructure layer that all other services depend on.
 #
 # Core services included:
@@ -44,7 +44,7 @@ services:
   # =========================================================================
   # TRAEFIK - Reverse Proxy & Service Discovery
   # =========================================================================
-  # Acts as the HTTP entrypoint for the entire platform.
+  # Acts as the HTTP entrypoint for the stack.
   # Dynamically discovers Docker containers via Docker API.
   # Routes traffic based on container labels.
   #
@@ -260,9 +260,9 @@ services:
     restart: unless-stopped
 
   # =========================================================================
-  # DASHBOARD - Platform Control Plane
+  # DASHBOARD - Stack Landing Page
   # =========================================================================
-  # Simple nginx-based dashboard for platform overview and service links.
+  # Simple nginx-based dashboard for stack overview and service links.
   # Accessible via Traefik at: http://ai.localhost
   # =========================================================================
   dashboard:

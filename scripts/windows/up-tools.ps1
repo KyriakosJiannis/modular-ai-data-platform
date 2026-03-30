@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start Harmonia - Modular AI & Data Platform - Core + Tools
+    Start Harmonia - Core + Tools
 
 .DESCRIPTION
     Starts the core infrastructure plus user-facing tools.
@@ -47,7 +47,7 @@ $envFile = Join-Path $repoRoot "config\env\.env"
 
 # Validate environment file exists
 if (-not (Test-Path $envFile)) {
-    Write-Error "Missing $envFile. Create it from config/env/.env.example before starting the platform."
+    Write-Error "Missing $envFile. Create it from config/env/.env.example before starting the stack."
     exit 2
 }
 
@@ -59,17 +59,18 @@ $composeArgs = @(
     "--profile", "infra",
     "--profile", "tools",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
-Write-Host "Starting Harmonia - Modular AI & Data Platform - Core + Tools" -ForegroundColor Green
+Write-Host "Starting Harmonia - Core + Tools" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir
 try {
     & docker compose @composeArgs
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "`n✅ Platform started successfully" -ForegroundColor Green
+        Write-Host "`n✅ Stack started successfully" -ForegroundColor Green
         Write-Host "Dashboard: http://ai.localhost" -ForegroundColor Cyan
         Write-Host "OpenWebUI: http://openwebui.localhost" -ForegroundColor Cyan
         Write-Host "MLflow: http://mlflow.localhost" -ForegroundColor Cyan

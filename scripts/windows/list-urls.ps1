@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    List all accessible URLs for running Harmonia - Modular AI & Data Platform services
+    List all accessible URLs for running Harmonia services
 
 .DESCRIPTION
     Detects which services are currently running and displays their accessible URLs.
@@ -23,7 +23,7 @@
 .NOTES
     Prerequisites:
     - Docker Desktop running
-    - Platform services started
+    - Stack services started
 
     Exit Codes:
     - 0: Success
@@ -99,7 +99,7 @@ function Test-PortExposed {
 }
 
 Write-Host "`n╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║   Harmonia - Modular AI & Data Platform URLs                  ║" -ForegroundColor Cyan
+Write-Host "║        Harmonia - Stack URLs                                  ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
 
 # Define services with a consistent schema
@@ -392,10 +392,10 @@ Write-Host "   • Use " -NoNewline
 Write-Host "-Detailed" -ForegroundColor Yellow -NoNewline
 Write-Host " to see stopped services"
 Write-Host "   • Run " -NoNewline
-Write-Host ".\up-dev-tools.ps1" -ForegroundColor Yellow -NoNewline
+Write-Host ".\start-dev.ps1" -ForegroundColor Yellow -NoNewline
 Write-Host " to enable database access"
 Write-Host "   • Visit " -NoNewline
 Write-Host "http://ai.localhost" -ForegroundColor Cyan -NoNewline
-Write-Host " for the platform dashboard`n"
+Write-Host " for the stack dashboard`n"
 
 exit 0

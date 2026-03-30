@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Restart Harmonia - Modular AI & Data Platform
+    Restart Harmonia
 
 .DESCRIPTION
-    Restarts the supported default platform stack.
+    Restarts the supported default stack.
     Useful for applying configuration changes or recovering from issues.
 
     This script:
@@ -47,7 +47,7 @@ if (-not (Test-Path $envFile)) {
     exit 2
 }
 
-Write-Host "Restarting Harmonia - Modular AI & Data Platform" -ForegroundColor Green
+Write-Host "Restarting Harmonia" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir
@@ -81,7 +81,7 @@ try {
     & docker compose @composeArgs
 
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "`n✅ Platform restarted successfully" -ForegroundColor Green
+        Write-Host "`n✅ Stack restarted successfully" -ForegroundColor Green
         Write-Host "Dashboard: http://ai.localhost" -ForegroundColor Cyan
     }
 

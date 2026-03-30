@@ -1,53 +1,71 @@
 # MLflow Demo
 
-This example validates the platform's ML experiment-tracking path by training simple models and logging parameters, metrics, and artifacts to MLflow.
+This example shows a simple local experiment-tracking workflow using the Harmonia stack.
 
-## What It Proves
+- Demonstrates: model training, run tracking, metric logging, and artifact storage
+- Uses: MLflow, PostgreSQL-backed tracking, and MinIO-backed artifacts
+- Outcome: a readable notebook that proves the stack can support practical local MLOps workflows
 
-- External projects can connect cleanly to the platform's MLflow service
-- Runs, metrics, and artifacts are persisted through the shared platform stack
-- The platform can support a standard notebook-based experimentation workflow
+## Why Run It
 
-## Required Services
+This is a good example if you want to validate that the stack supports repeatable experimentation, not just infrastructure startup. It shows the basic MLflow feedback loop end to end.
 
-Start the platform with the tools layer enabled:
+## Services Used
+
+- MLflow for experiment tracking
+- PostgreSQL for tracking metadata
+- MinIO for artifacts
+
+## Quick Start
+
+Start the stack with the default startup path:
 
 ```powershell
-.\scripts\windows\up-tools.ps1
+.\scripts\windows\start.ps1
 ```
 
-Expected service:
-
-- MLflow -> http://mlflow.localhost
-
-## Install
+Then install dependencies and open the notebook:
 
 ```powershell
 cd examples/mlflow-demo
 pip install -r requirements.txt
-```
-
-## Run
-
-```powershell
 jupyter notebook mlflow_demo.ipynb
 ```
 
-## Expected Outcome
+## Expected Result
 
 After running the notebook, you should see:
 
-- one or more MLflow runs recorded in the tracking UI
+- one or more runs recorded in MLflow
 - logged parameters and evaluation metrics
-- generated artifacts stored in the platform-backed artifact store
+- generated artifacts available through the stack-backed artifact store
+
+Open:
+
+- `http://mlflow.localhost`
 
 ## Files
 
 ```text
 examples/mlflow-demo/
+├── artifacts/
+├── data/
 ├── mlflow_demo.ipynb
+├── README.md
 └── requirements.txt
 ```
+
+## Notes
+
+- The notebook keeps the workflow readable and easy to adapt
+- It is designed to validate the tracking path, not to benchmark model quality
+- It can be reused as a starting point for external ML experiments
+
+## Next Steps
+
+- Change the model or dataset in the notebook
+- Log additional metrics or artifacts
+- Reuse the same tracking setup in a separate training project
 
 ## Related Documentation
 

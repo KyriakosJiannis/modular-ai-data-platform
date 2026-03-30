@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Diagnose Harmonia - Modular AI & Data Platform setup and configuration
+    Diagnose Harmonia setup and configuration
 
 .DESCRIPTION
-    Performs basic checks to verify the platform is properly configured.
+    Performs basic checks to verify the stack is properly configured.
     Checks for:
     - Docker CLI installed and working
     - Docker daemon running
@@ -38,7 +38,7 @@ $volumesDir = Join-Path $repoRoot "volumes"
 
 $allChecksPassed = $true
 
-Write-Host "Harmonia - Modular AI & Data Platform - Diagnostic Check" -ForegroundColor Green
+Write-Host "Harmonia - Diagnostic Check" -ForegroundColor Green
 Write-Host "===============================" -ForegroundColor Green
 Write-Host ""
 
@@ -137,11 +137,11 @@ else {
 # Summary
 Write-Host ""
 if ($allChecksPassed) {
-    Write-Host "✅ All checks passed! Platform is ready to use." -ForegroundColor Green
+    Write-Host "✅ All checks passed! Stack is ready to use." -ForegroundColor Green
     Write-Host ""
     Write-Host "Next steps:" -ForegroundColor Cyan
     Write-Host "  1. Edit config/env/.env with your settings" -ForegroundColor Cyan
-    Write-Host "  2. Run: .\scripts\windows\up-tools.ps1" -ForegroundColor Cyan
+    Write-Host "  2. Run: .\scripts\windows\start.ps1" -ForegroundColor Cyan
     Write-Host "  3. Open: http://ai.localhost" -ForegroundColor Cyan
     exit 0
 }

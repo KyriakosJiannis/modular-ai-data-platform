@@ -29,7 +29,7 @@ services:
 
 
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.10.2
     profiles: ["monitoring"]
     command:
       - '--path.rootfs=/host'

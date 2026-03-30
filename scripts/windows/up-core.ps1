@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start Harmonia - Modular AI & Data Platform - Core Infrastructure Only
+    Start Harmonia - Core Infrastructure Only
 
 .DESCRIPTION
     Starts only the core infrastructure layer (Traefik, PostgreSQL, MongoDB, Qdrant, MinIO, Dashboard).
@@ -53,10 +53,11 @@ $composeArgs = @(
     "-f", "docker-compose.yml",
     "--profile", "infra",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
-Write-Host "Starting Harmonia - Modular AI & Data Platform - Core Infrastructure" -ForegroundColor Green
+Write-Host "Starting Harmonia - Core Infrastructure" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 
 Push-Location $composeDir

@@ -3,5 +3,5 @@
 # simply run `docker compose` without this file and install Ollama on the host.
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:v0.19.0
     gpus: all

@@ -24,7 +24,7 @@ Compose files are the source of truth for this catalog. This document describes 
 | Prometheus | `compose/docker-compose.monitoring.yml` | Optional monitoring | `monitoring` | `ai-infra-net`, `ai-public-net` | `http://prometheus.localhost` | `http://localhost:9090` | Base when monitoring is enabled | No |
 | Grafana | `compose/docker-compose.monitoring.yml` | Optional monitoring | `monitoring` | `ai-infra-net`, `ai-public-net` | `http://grafana.localhost` | `http://localhost:3001` | Base when monitoring is enabled | No |
 | Prefect Server | `compose/docker-compose.orchestration.yml` | Optional orchestration | `orchestration` | `ai-infra-net`, `ai-public-net` | `http://prefect.localhost` | `http://localhost:4201` | Traefik-first; direct access via `docker-compose.dev-orchestration.yml` | No |
-| Prefect Worker | `compose/docker-compose.orchestration.yml` | Optional orchestration | `orchestration` | `ai-infra-net`, `ai-public-net` | — | — | Background service | Yes |
+| Prefect Agent | `compose/docker-compose.orchestration.yml` | Optional orchestration | `orchestration` | `ai-infra-net`, `ai-public-net` | — | — | Background service | Yes |
 | Dagster Webserver | `compose/docker-compose.orchestration.yml` | Optional orchestration | `orchestration` | `ai-infra-net`, `ai-public-net` | `http://dagster.localhost` | `http://localhost:3051` | Traefik-first; direct access via `docker-compose.dev-orchestration.yml` | No |
 | Dagster Daemon | `compose/docker-compose.orchestration.yml` | Optional orchestration | `orchestration` | `ai-infra-net`, `ai-public-net` | — | — | Background service | Yes |
 | SQL Server | `compose/docker-compose.sqlserver.yml` | Optional SQL layer | `sqlserver` | `ai-infra-net` | — | `localhost:1433` | Direct access via `docker-compose.dev-sqlserver.yml` | Yes |
@@ -91,7 +91,7 @@ These service names are intended for container-to-container communication inside
 | Qdrant | `qdrant:6333` |
 | MinIO API | `minio:9000` |
 | SQL Server | `sqlserver:1433` |
-| Prefect Worker | background service |
+| Prefect Agent | background service |
 | Dagster Daemon | background service |
 | MinIO Init | one-shot initialization container |
 
@@ -133,7 +133,7 @@ These service names are intended for container-to-container communication inside
 | Service | Purpose | Default Access |
 |---|---|---|
 | Prefect Server | Workflow orchestration UI/API | `http://prefect.localhost`; direct host port via dev-orchestration overlay |
-| Prefect Worker | Flow execution | Background service |
+| Prefect Agent | Queue polling and flow submission | Background service |
 | Dagster Webserver | Data orchestration UI | `http://dagster.localhost`; direct host port via dev-orchestration overlay |
 | Dagster Daemon | Schedules and sensors | Background service |
 
@@ -158,8 +158,8 @@ These configurations reflect the supported Windows script surface.
 | Configuration | Script | Compose Shape |
 |---|---|---|
 | Core only | `.\scripts\windows\up-core.ps1` | Base `infra` profile |
-| Core + tools | `.\scripts\windows\up-tools.ps1` | Base + tools |
-| Core + tools + direct data access | `.\scripts\windows\up-dev-tools.ps1` | Base + tools + dev-core |
+| Default stack | `.\scripts\windows\start.ps1` | Base + tools |
+| Developer stack | `.\scripts\windows\start-dev.ps1` | Base + tools + dev-core |
 | Core + tools + monitoring | `.\scripts\windows\up-monitoring.ps1` | Base + tools + monitoring |
 | Core + tools + orchestration | `.\scripts\windows\up-orchestration.ps1` | Base + tools + orchestration |
 | Full local stack | `.\scripts\windows\up-full.ps1` | Base + tools + monitoring + dev-core |
@@ -232,7 +232,7 @@ Used for gateway-routed services and externally reachable UIs:
 - Grafana
 - cAdvisor
 - Prefect Server
-- Prefect Worker
+- Prefect Agent
 - Dagster Webserver
 - Dagster Daemon
 
@@ -255,7 +255,7 @@ Used for internal service-to-service communication across the full stack:
 - cAdvisor
 - Node Exporter
 - Prefect Server
-- Prefect Worker
+- Prefect Agent
 - Dagster Webserver
 - Dagster Daemon
 - SQL Server

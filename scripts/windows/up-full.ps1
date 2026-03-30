@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Start Harmonia - Modular AI & Data Platform - Complete Local Stack (Core + Tools + Monitoring + Dev)
+    Start Harmonia - Complete Local Stack (Core + Tools + Monitoring + Dev)
 
 .DESCRIPTION
     Starts the complete local platform stack with all features and developer conveniences.
@@ -73,10 +73,11 @@ $composeArgs = @(
     "--profile", "tools",
     "--profile", "monitoring",
     "up",
-    "-d"
+    "-d",
+    "--remove-orphans"
 )
 
-Write-Host "Starting Harmonia - Modular AI & Data Platform - Complete Local Stack" -ForegroundColor Green
+Write-Host "Starting Harmonia - Complete Local Stack" -ForegroundColor Green
 Write-Host "Using environment: $envFile" -ForegroundColor Cyan
 Write-Host "Stack: Core + Tools + Monitoring + Dev Access" -ForegroundColor Yellow
 
@@ -84,7 +85,7 @@ Push-Location $composeDir
 try {
     & docker compose @composeArgs
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "`n✅ Complete platform started successfully" -ForegroundColor Green
+        Write-Host "`n✅ Complete stack started successfully" -ForegroundColor Green
         Write-Host "`nService URLs:" -ForegroundColor Cyan
         Write-Host "  Dashboard: http://ai.localhost" -ForegroundColor Cyan
         Write-Host "  OpenWebUI: http://openwebui.localhost" -ForegroundColor Cyan

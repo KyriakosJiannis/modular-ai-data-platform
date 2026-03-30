@@ -3,4 +3,4 @@
 # path. Omit when using a hybrid Windows AMD configuration where Ollama runs natively.
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:v0.19.0

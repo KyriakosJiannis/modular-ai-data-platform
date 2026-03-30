@@ -1,5 +1,5 @@
 """
-Minimal Dagster definitions for platform validation.
+Minimal Dagster definitions for stack validation.
 
 This module contains a simple asset to validate Dagster startup.
 Real ML pipelines and data workflows will be added in the application layer.
@@ -12,7 +12,7 @@ from datetime import datetime
 @asset
 def platform_status() -> dict:
     """
-    Simple asset that returns platform status.
+    Simple asset that returns stack status.
 
     This asset validates that Dagster can:
     - Define assets
@@ -20,13 +20,13 @@ def platform_status() -> dict:
     - Track asset lineage
 
     Returns:
-        dict: Platform status information
+        dict: Stack status information
     """
     return {
         "status": "operational",
         "timestamp": datetime.now().isoformat(),
         "orchestration": "dagster",
-        "message": "AI Platform orchestration layer is ready"
+        "message": "Harmonia orchestration layer is ready"
     }
 
 
